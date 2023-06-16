@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+
+const passport = require('passport');
+
 const patientRoutes = require('./routes/patientRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const courseRoutes = require('./routes/courseRoutes');
@@ -14,14 +17,17 @@ const app = express();
 const port = 3000;
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://<username>:<password>@<cluster>/<dbname>?retryWrites=true&w=majority',
+// Initialize Passport.js middleware
+app.use(passport.initialize());
+
+mongoose.connect('mongodb+srv://imbuesoftworld:mqmMHkuWGMtCCXlo@cluster0.sozqsp2.mongodb.net/internship',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }
 );
 
-//localhost:3000/patients/:id
+app.use('/users', userRoutes);
 app.use('/patients', patientRoutes);
 app.use('/students', studentRoutes);
 app.use('/courses', courseRoutes);
@@ -29,8 +35,6 @@ app.use('/exams', examRoutes);
 app.use('/questions', questionRoutes);
 app.use('/examQuestions', examQuestionRoutes);
 app.use('/examStudents', examStudentRoutes);
-app.use('/users', userRoutes);
-
 
 app.listen(port, () => {
     console.log('Server is running on port ' + port);

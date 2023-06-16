@@ -3,7 +3,12 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const userValidator = require('../validators/userValidator');
 
-router.post('/', userValidator.createUser, userController.createUser);
+router.post('/signup', userController.createUser);
+router.post('/login', userController.loginUser);
+
+// Protected routes
+router.get('/profile', userController.getUserProfile);
+
 router.get('/', userController.getUsers);
 router.get('/:id', userController.getUserById);
 router.put('/:id', userValidator.updateUser, userController.updateUserById);
